@@ -1,0 +1,60 @@
+<html>
+    <body>
+        <form onsubmit="saveToLocalStorage(event)">
+            <label>ChooseExpense</label>
+            <input type="num" name="Number" required/>
+            <label >ChooseDiscription</label>
+            <input type="text" name="spend" required/>
+            <label >ChooseCatogery</label>
+            <input type="text" name="catogery" required/>
+            <button>Add Expense</button>
+        </form>
+        <ul id='listOfitems'></ul>
+        
+        <script>
+            function saveToLocalStorage(event){
+                event.preventDefault();
+                const ChooseExpense = event.target.Number.value;
+                const ChooseDiscription = event.target.spend.value;
+                const ChooseCatogery = event.target.catogery.value;
+                const obj={
+                    ChooseExpense,
+                    ChooseDiscription,
+                    ChooseCatogery
+                }
+                localStorage.setItem(obj.spend,JSON.stringify(obj))
+                showUserOnScreen(obj)
+
+            }
+            function showUserOnScreen(obj){
+                const parentElement=document.getElementById('listOfitems')
+                const childElement=document.createElement('li')
+                childElement.textContent=obj.ChooseExpense+'-'+obj.ChooseDiscription+'-'+obj.ChooseCatogery
+                const deleteButton =document.createElement('input')
+                deleteButton.type='button'
+                deleteButton.value='Delete'
+                deleteButton.onclick= () => {
+                    localStorage.removeItem=(obj.spend)
+                    parentElement.removeChild(childElement)
+                }
+                const editButton =document.createElement('input')
+                editButton.type='button'
+                editButton.value='Edit'
+                editButton.onclick= () => {
+                    localStorage.removeItem(obj.spend)
+                    parentElement.removeChild(childElement)
+                    document.getElementById('usernameInputTag').value=obj.ChooseExpense
+                    document.getElementById('emailInputTag').value=obj.spend
+                    document.getElementById('phonenumberInputTag').value=obj.catogery
+
+                }
+                childElement.appendChild(deleteButton)
+                childElement.appendChild(editButton)
+                parentElement.appendChild(childElement)
+            }
+
+                
+        </script>
+        
+    </body>
+</html>
